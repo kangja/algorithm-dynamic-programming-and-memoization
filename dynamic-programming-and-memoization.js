@@ -53,9 +53,9 @@
 // console.log(square(30000));
 
 
-const prevValues = []
+// const prevValues = []
 
-function square(n) {
+// function square(n) {
   // if our prevValues of n is already there (!= null), then all we need to do is return that prevValues of n. It means that if we already called the function with variable n, just return the result. And if we run the function again, the first one executes slowly, but every single other one finishes instanteously because all it does it look up the value that already exist. 
 
   // Memoization is used everywhere in programming. The most popular cases are where we have two for loops that take a long time to execute and you want to get the same value over and over. 
@@ -63,24 +63,24 @@ function square(n) {
   // Another really popular case is when you are fetching external resources, such as fetch API, then you use memoization to save you from making bunch of calls to the server because you've already know that you've made the call and you already know what the results are. You've essentially cached them. 
 
   // The last use case of memoization is in dynamic programming. Dynamic programming is when you have recursive function that calls itself multiple times with same inputs and you memoize the inputs. 
-  if (prevValues[n] != null) {
-    return prevValues[n]
-  }
-  let result = 0
-  for (let i = 1; i <= n; i++) {
-    for (let j = 1; j <= n; j++) {
-  result +=1
-  }
-  }
-  prevValues[n] = result
-return result
-}
+//   if (prevValues[n] != null) {
+//     return prevValues[n]
+//   }
+//   let result = 0
+//   for (let i = 1; i <= n; i++) {
+//     for (let j = 1; j <= n; j++) {
+//   result +=1
+//   }
+//   }
+//   prevValues[n] = result
+// return result
+// }
 
-console.log(square(30000));
-console.log(square(30000));
-console.log(square(30000));
-console.log(square(30000));
-console.log(square(30000));
+// console.log(square(30000));
+// console.log(square(30000));
+// console.log(square(30000));
+// console.log(square(30000));
+// console.log(square(30000));
 
 
 
@@ -88,16 +88,70 @@ console.log(square(30000));
 // takes in previous two numbers, adds them together and gives you the new number in sequence. n is the nth number of sequence we want to get. If n equals to 1 or is less than 2, we always return 1 because we need something to start the sequence. 
 
 // Else, we can return the fibonacchi sequence of the previous number added to the fibonacchi of the second most previous number. 
-function fib(n) {
-  if (n <= 2) {
-    return 1
-  } else {
-    return fib(n - 1) + fib (n-2)
+// function fib(n) {
+//   if (n <= 2) {
+//     return 1
+//   } else {
+//     return fib(n - 1) + fib (n-2)
+//   }
+// }
+
+// console.log(fib(4))
+// 3
+
+// console.log(fib(6))
+// 8
+
+// As we increase the value of n, it starts to take some time. 
+// console.log(fib(40))
+// 102334155
+
+// 41 is taking longer. It's taking as double as long as 40 took. It takes slower and slower really quickly. 
+// console.log(fib(41))
+// 165580141
+
+// This is where memoization comes in to play. We are recalculating bunch of same things over and over again. We are repeating a bunch of fibannachi calls and this is where we could do memoization. 
+
+// THEREFORE, we could calculate the previous value and default it to an empty array. We could pass in the prevValues into fibanacchi sequences, saying we've already calculated this, you don't need to recalcute it. 
+
+function fib(n, prevValues = []) {
+  if (prevValues[n] != null) {
+    return prevValues[n]
   }
+  let result
+  if (n <= 2) {
+    result = 1
+  } else {
+    result = fib(n - 1, prevValues) + fib (n-2, prevValues)
+  }
+  prevValues[n] = result 
+  return result
 }
 
-console.log(fib(4))
-// 3
+// console.log(fib(5))
+// 5
+
+// console.log(fib(40))
+// 102334155
+
+// it works almost instantly
+// console.log(fib(100))
+// 354224848179262000000
+
+// incredibly quick 
+console.log(fib(500))
+// 1.394232245616977e+104
+
+
+// without memoization, it would've taken incredibly long time to execute fibanacchi of 100. 
+
+
+
+
+
+
+
+
 
 
 
